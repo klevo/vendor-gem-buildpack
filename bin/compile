@@ -11,4 +11,9 @@ CACHE_DIR=$2
 ENV_DIR=$3
 echo "-----> vendor-gem-buildpack: BUILDPACK_DIR=$BUILDPACK_DIR BUILD_DIR=$BUILD_DIR CACHE_DIR=$CACHE_DIR ENV_DIR=$ENV_DIR"
 
+git archive --remote=$COMMON_GEM_URL master | tar -x -C gem_app
+mkdir -p $BUILD_DIR/$VENDOR_GEM_NAME
+mv gem_app/$VENDOR_GEM_NAME $BUILD_DIR/$VENDOR_GEM_NAME/
+touch $BUILD_DIR/.use_local_$VENDOR_GEM_NAME
+
 exit 0
