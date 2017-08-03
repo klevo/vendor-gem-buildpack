@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+# Usage: bin/update_gemfile_lock GEMFILE_LOCK_PATH COMMON_GEM_URL VENDOR_GEM_NAME
+
+gemfile_lock_path = ARGV[0]
+
+unless gemfile_lock_path.include?('Gemfile.lock')
+  throw "First argument must be a path to Gemfile.lock"
+end
+
+gem_url = ARGV[1]
+vendor_gem_name = ARGV[2]
+gemfile_lock_contents = File.read gemfile_lock_path
+# puts gemfile_lock_contents
+
+index = 0
+replace_line_index = nil
+delete_line_indexes = []
+lines = []
+
+gemfile_lock_contents.each_line do |line|
+  lines << line
+
+  if line.include?(gem_url)
+    # Replace one line above
+    replace_line_index = index - 1
+
+    # Delete two lines below
+    delete_line_indexes = [index + 1, index + 2]
+  end
+
+  index += 1
+end
+
+revision = lines[delete_line_indexes[0]].sub('revision:', '').chomp.strip
+
+lines[replace_line_index] = "PATH\n"
+lines[replace_line_index + 1] = "  remote: #{vendor_gem_name}\n"
+
+delete_line_indexes.each do |index|
+  lines[index] = nil
+end
+
+File.write gemfile_lock_path, lines.join
+print revision
