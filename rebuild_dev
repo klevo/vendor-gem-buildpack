@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo " -> Removing docker images"
+docker rm -vf heroku-vendor-gem-buildpack
+
+echo " -> Rebuilding the image from current directory"
+docker build -t heroku-vendor-gem-buildpack .
+
+echo " -> Run the slave container"
+
+# docker run -d --name heroku-vendor-gem-buildpack \
+#   heroku-vendor-gem-buildpack
+#
+# docker ps
+# echo " -> Done. To shell into the container: docker exec -i -t heroku-vendor-gem-buildpack bash"
+
+docker run -it --rm --name heroku-vendor-gem-buildpack \
+  -v /Users/klevo/www/vendor-gem-buildpack/bin:/var/buildpack/bin \
+  -v /tmp/buildpack_cache:/var/buildpack_cache \
+  heroku-vendor-gem-buildpack bash
+
+# -v /tmp/buildpack_cache:/var/buildpack_cache \

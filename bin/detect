@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Usage: bin/detect BUILD_DIR
+# https://devcenter.heroku.com/articles/buildpack-api#bin-detect
+echo 'vendor-gem-buildpack'
+exit 0

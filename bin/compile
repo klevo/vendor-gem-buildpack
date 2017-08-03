@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Usage: bin/compile BUILD_DIR CACHE_DIR ENV_DIR
+# For example: bin/compile /var/dummy_app /var/buildpack_cache /var/buildpack_env
+# https://devcenter.heroku.com/articles/buildpack-api#bin-compile
+
+set -e
+
+BUILDPACK_DIR=$(pwd)
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+echo "-----> vendor-gem-buildpack: BUILDPACK_DIR=$BUILDPACK_DIR BUILD_DIR=$BUILD_DIR CACHE_DIR=$CACHE_DIR ENV_DIR=$ENV_DIR"
+
+exit 0
