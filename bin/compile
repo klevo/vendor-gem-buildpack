@@ -14,7 +14,8 @@ COMMON_GEM_URL=$(cat $ENV_DIR/COMMON_GEM_URL)
 REVISION=$(bin/update_gemfile_lock $BUILD_DIR/Gemfile.lock $COMMON_GEM_URL $VENDOR_GEM_NAME)
 # echo "-----> vendor-gem-buildpack: BUILDPACK_DIR=$BUILDPACK_DIR BUILD_DIR=$BUILD_DIR CACHE_DIR=$CACHE_DIR ENV_DIR=$ENV_DIR"
 
-curl -O -L $COMMON_GEM_URL/archive/$REVISION.zip
+echo "-----> vendor-gem-buildpack: Downloading $VENDOR_GEM_NAME @ $REVISION from GitHub"
+curl -s -O -L $COMMON_GEM_URL/archive/$REVISION.zip
 unzip -q $REVISION.zip
 mkdir -p $BUILD_DIR/$VENDOR_GEM_NAME
 mv hivewebshop-$REVISION/$VENDOR_GEM_NAME $BUILD_DIR/$VENDOR_GEM_NAME/
